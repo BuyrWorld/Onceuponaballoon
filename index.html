@@ -221,13 +221,8 @@ h1,h2,h3,h4{margin:0; font-family:var(--serif); font-weight:400; line-height:1.0
   position:absolute; right:clamp(16px,2.2vw,30px); top:calc(var(--hh,84px) + clamp(10px,1.6vw,20px));
   z-index:4; text-align:right; max-width:60%;
   font-family:var(--serif); font-style:italic; font-size:1.02rem; color:#F2E7D2;
-  text-shadow:0 1px 16px rgba(10,9,8,.9), 0 1px 3px rgba(10,9,8,.7);
+  text-shadow:0 0 1px rgba(10,9,8,.9), 0 1px 2px rgba(10,9,8,.85), 0 2px 5px rgba(10,9,8,.6);
   animation:noteRise 1.5s var(--e-out) .45s both;
-}
-/* soft scrim so the prompt stays readable whatever drifts behind it */
-.hero-note::before{
-  content:""; position:absolute; inset:-22px -26px -24px -46px; z-index:-1; pointer-events:none;
-  background:radial-gradient(70% 140% at 78% 45%, rgba(12,10,9,.82), rgba(12,10,9,.4) 46%, transparent 76%);
 }
 .note-float{display:block; animation:noteBob 6.5s var(--e-soft) 2s infinite}
 @keyframes noteRise{
@@ -238,7 +233,7 @@ h1,h2,h3,h4{margin:0; font-family:var(--serif); font-weight:400; line-height:1.0
 @keyframes noteBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 .hero-tally{display:block; font-family:var(--sans); font-style:normal; font-size:.68rem;
   font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:#C6BAAA; margin-top:6px;
-  text-shadow:0 1px 10px rgba(10,9,8,.9); opacity:0; transition:opacity .5s}
+  text-shadow:0 1px 2px rgba(10,9,8,.85), 0 2px 5px rgba(10,9,8,.6); opacity:0; transition:opacity .5s}
 .hero-tally.on{opacity:1}
 @media (max-width:1000px){
   .hero{grid-template-columns:1fr; min-height:0}
@@ -290,7 +285,15 @@ h1,h2,h3,h4{margin:0; font-family:var(--serif); font-weight:400; line-height:1.0
 .occ{position:relative; display:block; text-decoration:none; color:inherit; overflow:hidden; border-radius:2px}
 .occ .frame{aspect-ratio:4/5}
 .occ-body{position:absolute; inset:auto 0 0 0; z-index:3; padding:clamp(16px,1.6vw,24px); color:#FFFDF9;
-  background:linear-gradient(to top, rgba(11,10,9,.82) 10%, rgba(11,10,9,.34) 55%, transparent 92%)}
+  background:none}
+.occ::before{
+  content:""; position:absolute; left:0; right:0; bottom:0; height:58%; z-index:2; pointer-events:none;
+  background:linear-gradient(to top,
+    rgba(11,10,9,.95) 0%, rgba(11,10,9,.9) 30%, rgba(11,10,9,.66) 58%,
+    rgba(11,10,9,.3) 80%, rgba(11,10,9,0) 100%);
+  transition:height .55s var(--e-out);
+}
+.occ:hover::before, .occ:focus-within::before{height:72%}
 .occ-label{font-size:.64rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase;
   color:var(--gold-soft); display:block; margin-bottom:8px}
 .occ h3{font-size:clamp(1.4rem,2vw,1.75rem); color:#FFFDF9}
