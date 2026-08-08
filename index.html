@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Once Upon a Balloon — Luxury balloon styling for weddings, celebrations &amp; brands</title>
+<meta name="description" content="Bespoke balloon installations for weddings, birthdays, baby showers, engagements, christenings and corporate events. Any palette matched exactly, installed and collected.">
+<meta property="og:title" content="Once Upon a Balloon">
+<meta property="og:description" content="Luxury balloon styling, colour-matched to you. Weddings, celebrations and brand events.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><ellipse cx='50' cy='42' rx='27' ry='32' fill='%23C8A97E'/><path d='M50 74 l-4 7 h8 z' fill='%23C8A97E'/><path d='M50 81 q7 9 0 15' stroke='%23EFE9E3' stroke-width='3' fill='none'/></svg>">
+
+<style>
+/* ============================================================================
+   ONCE UPON A BALLOON
+   Type: Newsreader (sturdy editorial serif — readable at every size, unlike a
+   didone) + Manrope for UI. Grounds are high-contrast by default; the gold
+   accent swaps to a deep bronze on light surfaces so it always passes AA.
+   ========================================================================= */
+:root{
+  --ink:      #14100E;
+  --ink-2:    #201A17;
+  --paper:    #FAF7F3;   /* light ground — brighter than a cream */
+  --paper-2:  #FFFFFF;
+  --gold:     #D3B183;   /* accent on dark */
+  --bronze:   #74521F;   /* accent on light — 6.2:1 on paper */
+
+  --accent:   var(--bronze);
+  --ground:   var(--paper);
+  --tx:       #14100E;   /* 16.4:1 on paper */
+  --tx-mute:  #4C443E;   /* 9.4:1 on paper */
+  --line:     #DED6CC;
+
+  --display: "Newsreader", Georgia, "Times New Roman", serif;
+  --body:    "Manrope", system-ui, -apple-system, sans-serif;
+
+  --band: clamp(80px, 9.5vw, 142px);
+  --gut:  clamp(20px, 4.4vw, 56px);
+  --max:  1240px;
+  --ease: cubic-bezier(.19,1,.22,1);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth; -webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--tx);
+  font-family:var(--body); font-size:18px; font-weight:400; line-height:1.72;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+img,svg{display:block; max-width:100%}
+a{color:inherit}
+p{margin:0}
+h1,h2,h3,h4{margin:0; font-family:var(--display); font-weight:500; line-height:1.1; letter-spacing:-.012em}
+
+.wrap{max-width:var(--max); margin-inline:auto; padding-inline:var(--gut)}
+.band{padding-block:var(--band)}
+
+.dark{
+  background:var(--ink); color:var(--paper);
+  --accent:var(--gold); --ground:var(--ink);
+  --tx:#F6F2ED; --tx-mute:#C0B6AE; --line:#3B322C; --paper-2:var(--ink-2);
+}
+
+/* ---------- type ---------- */
+.eyebrow{
+  font-family:var(--body); font-size:.8rem; font-weight:700;
+  letter-spacing:.15em; text-transform:uppercase; color:var(--accent);
+}
+.h2{font-size:clamp(2.1rem,4.8vw,3.4rem); font-weight:500; color:var(--tx)}
+.h2 em{font-style:italic; font-weight:500}
+.lede{font-size:1.08rem; color:var(--tx-mute); max-width:56ch; line-height:1.74}
+h1,h2,h3{color:var(--tx)}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:.6em; cursor:pointer;
+  font-family:var(--body); font-size:.82rem; font-weight:700;
+  letter-spacing:.11em; text-transform:uppercase; text-decoration:none;
+  padding:1.05em 2em; border:1.5px solid var(--accent); border-radius:0;
+  background:transparent; color:var(--tx); position:relative; overflow:hidden;
+  isolation:isolate; transition:color .45s var(--ease), border-color .45s var(--ease);
+}
+.btn::before{
+  content:""; position:absolute; inset:0; background:var(--accent);
+  transform:translateY(101%); transition:transform .5s var(--ease); z-index:-1;
+}
+.btn:hover::before{transform:translateY(0)}
+.btn:hover{color:var(--ground)}
+.btn-solid{background:var(--accent); color:var(--ground); border-color:var(--accent)}
+.btn-solid::before{background:var(--tx)}
+.btn-solid:hover{color:var(--ground); border-color:var(--tx)}
+.btn-sm{padding:.8em 1.3em; font-size:.74rem}
+:focus-visible{outline:2.5px solid var(--accent); outline-offset:3px}
+
+/* ============================================================================
+   NAV
+   ========================================================================= */
+.nav{
+  --accent:var(--gold); --ground:var(--ink); --tx:#F6F2ED;
+  position:fixed; top:0; left:0; right:0; z-index:80;
+  transition:background .5s var(--ease), backdrop-filter .5s;
+}
+.nav.is-stuck{background:rgba(20,16,14,.94); backdrop-filter:blur(14px)}
+.nav-in{display:flex; align-items:center; gap:28px; height:80px}
+.wordmark{
+  margin-right:auto; text-decoration:none; color:#F6F2ED;
+  font-family:var(--body); font-weight:600; font-size:.86rem;
+  letter-spacing:.24em; text-transform:uppercase; white-space:nowrap;
+  display:flex; align-items:center; gap:12px;
+}
+.wordmark svg{width:15px; height:22px; flex:none}
+.nav-links{display:flex; gap:30px}
+.nav-links a{
+  text-decoration:none; color:#D6CEC7; font-size:.82rem; font-weight:500;
+  letter-spacing:.05em; padding:4px 0; position:relative; transition:color .35s;
+}
+.nav-links a::after{
+  content:""; position:absolute; left:0; bottom:0; height:1.5px; width:0;
+  background:var(--gold); transition:width .4s var(--ease);
+}
+.nav-links a:hover{color:#fff}
+.nav-links a:hover::after{width:100%}
+.nav .btn{padding:.85em 1.4em; font-size:.76rem}
+@media (max-width:1040px){ .nav-links{display:none} }
+@media (max-width:430px){ .wordmark{letter-spacing:.14em; font-size:.78rem} }
+
+/* ============================================================================
+   HERO
+   ========================================================================= */
+.hero{
+  position:relative; min-height:100svh; display:flex; flex-direction:column;
+  justify-content:center; padding-block:128px 32px; overflow:hidden;
+}
+.hero-in{
+  position:relative; z-index:5; flex:1 1 auto;
+  display:grid; grid-template-columns:minmax(0,1.08fr) minmax(0,.6fr);
+  gap:clamp(20px,4vw,64px); align-items:center; align-content:center;
+}
+.hero-copy{max-width:56ch}
+.hero h1{font-size:clamp(2.7rem,7vw,5.8rem); font-weight:500; letter-spacing:-.028em; margin:24px 0 0}
+.hero h1 .em{display:block; font-style:italic; color:var(--gold); font-weight:500}
+.hero .lede{margin-top:26px; color:#CFC6BE; max-width:50ch}
+.hero-cta{display:flex; flex-wrap:wrap; gap:14px; margin-top:38px}
+.hero-foot{
+  position:relative; z-index:5; flex:0 0 auto; padding-top:30px;
+  display:flex; justify-content:space-between; align-items:flex-end; gap:18px; flex-wrap:wrap;
+}
+.credentials{display:flex; flex-wrap:wrap; gap:8px 26px; font-size:.82rem; font-weight:500; color:#BFB5AD}
+.pop-hint{font-family:var(--display); font-style:italic; font-size:1.05rem; color:var(--gold); transition:opacity .8s var(--ease)}
+.pop-hint.gone{opacity:0}
+.orbfield{position:relative; min-height:min(60vh,540px); z-index:2; pointer-events:none}
+@media (max-width:920px){
+  .hero{padding-block:112px 28px}
+  .hero-in{grid-template-columns:1fr; gap:24px}
+  .hero-copy{order:1}
+  .orbfield{order:2; min-height:30vh; max-width:320px; width:100%; margin-inline:auto}
+}
+
+.orb{
+  position:absolute; pointer-events:auto; cursor:pointer; border:0; padding:0;
+  background:none; -webkit-tap-highlight-color:transparent;
+  transition:transform .6s var(--ease), opacity .45s ease;
+}
+.orb svg{overflow:visible}
+.orb:hover{transform:scale(1.05) translateY(-6px)}
+.orb.popping{transform:scale(1.16); opacity:0; transition:transform .16s ease-out, opacity .16s ease-out}
+.orb.arriving{animation:arrive 1.6s var(--ease) both}
+@keyframes arrive{from{transform:translateY(64px) scale(.86); opacity:0} to{transform:none; opacity:1}}
+.drift-a{animation:driftA 13s ease-in-out infinite}
+.drift-b{animation:driftB 17s ease-in-out infinite}
+.drift-c{animation:driftA 15s ease-in-out infinite reverse}
+@keyframes driftA{0%,100%{transform:translate(0,0) rotate(-1.2deg)}50%{transform:translate(10px,-26px) rotate(1.4deg)}}
+@keyframes driftB{0%,100%{transform:translate(0,0) rotate(1.5deg)}50%{transform:translate(-14px,-34px) rotate(-1.6deg)}}
+#shards{position:fixed; inset:0; z-index:70; pointer-events:none; overflow:hidden}
+.shard{position:absolute; will-change:transform,opacity}
+
+/* ============================================================================
+   SECTION HEADS
+   ========================================================================= */
+.head{margin-bottom:clamp(40px,5.5vw,72px); max-width:64ch}
+.head-wide{max-width:none}
+.head .h2{margin-top:18px}
+.head .lede{margin-top:20px}
+.head-row{display:flex; justify-content:space-between; align-items:flex-end; gap:40px; flex-wrap:wrap}
+
+/* ============================================================================
+   OCCASIONS
+   ========================================================================= */
+.occ-list{border-top:1px solid var(--line)}
+.occ{
+  display:grid; grid-template-columns:52px 1fr 1.15fr auto; gap:clamp(14px,3vw,42px);
+  align-items:center; padding:clamp(22px,3vw,32px) 0;
+  border-bottom:1px solid var(--line); position:relative;
+  transition:padding-left .5s var(--ease);
+}
+.occ::before{
+  content:""; position:absolute; left:0; top:0; bottom:0; width:0;
+  background:var(--accent); opacity:.07; transition:width .5s var(--ease);
+}
+.occ:hover{padding-left:20px}
+.occ:hover::before{width:100%}
+.occ-no{font-family:var(--display); font-style:italic; font-size:1.05rem; font-weight:600; color:var(--accent)}
+.occ h3{font-size:clamp(1.55rem,3vw,2.3rem); font-weight:500}
+.occ p{font-size:1rem; color:var(--tx-mute); max-width:46ch; line-height:1.65}
+.occ .swatches{display:flex; gap:6px}
+.occ .swatches i{width:18px; height:18px; border-radius:50%; display:block; border:1px solid rgba(0,0,0,.08)}
+@media (max-width:860px){
+  .occ{grid-template-columns:40px 1fr; row-gap:10px}
+  .occ p, .occ .swatches{grid-column:2}
+}
+
+/* ============================================================================
+   PORTFOLIO
+   ========================================================================= */
+.grid{display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(10px,1.3vw,18px)}
+@media (max-width:900px){ .grid{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:540px){ .grid{grid-template-columns:1fr} }
+.tile{position:relative; overflow:hidden; background:var(--paper-2)}
+.tile-art{aspect-ratio:4/5; position:relative}
+.tile-art svg{position:absolute; inset:0; width:100%; height:100%; transition:transform 1.1s var(--ease)}
+.tile:hover .tile-art svg{transform:scale(1.04)}
+.tile-cap{
+  position:absolute; left:0; right:0; bottom:0; padding:20px;
+  display:flex; justify-content:space-between; align-items:baseline; gap:14px;
+  background:linear-gradient(to top, rgba(12,9,8,.86), rgba(12,9,8,0));
+  color:#fff; opacity:0; transform:translateY(10px);
+  transition:opacity .45s var(--ease), transform .45s var(--ease);
+}
+.tile:hover .tile-cap, .tile:focus-within .tile-cap{opacity:1; transform:none}
+.tile-cap b{font-family:var(--display); font-weight:600; font-size:1.15rem}
+.tile-cap i{font-style:normal; font-size:.76rem; font-weight:600; letter-spacing:.08em; color:#E4DAD0}
+.note{margin-top:26px; font-size:.94rem; color:var(--tx-mute)}
+
+/* ============================================================================
+   PALETTE STUDIO
+   ========================================================================= */
+.studio{display:grid; grid-template-columns:1.06fr .94fr; gap:clamp(32px,5vw,72px); align-items:start}
+@media (max-width:940px){ .studio{grid-template-columns:1fr; gap:36px} }
+.swatch-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:30px}
+@media (max-width:560px){ .swatch-grid{grid-template-columns:1fr} }
+.pal{
+  display:block; width:100%; text-align:left; cursor:pointer;
+  background:var(--paper-2); border:1.5px solid var(--line); padding:14px 16px 16px;
+  font-family:var(--body); color:var(--tx);
+  transition:border-color .35s, transform .35s var(--ease), box-shadow .35s;
+}
+.pal:hover{transform:translateY(-3px); box-shadow:0 12px 26px -18px rgba(20,16,14,.5)}
+.pal[aria-pressed="true"]{border-color:var(--accent); box-shadow:inset 0 0 0 1px var(--accent)}
+.pal-name{font-size:.94rem; font-weight:600; letter-spacing:.01em}
+.pal-strip{display:flex; gap:4px; margin-top:11px}
+.pal-strip i{flex:1; height:22px; display:block; border:1px solid rgba(0,0,0,.07)}
+
+.custom{
+  margin-top:12px; border:1.5px solid var(--line); background:var(--paper-2); padding:20px;
+}
+.custom h4{font-family:var(--body); font-size:.8rem; font-weight:700; letter-spacing:.15em;
+  text-transform:uppercase; color:var(--accent); margin-bottom:4px}
+.custom p{font-size:.92rem; color:var(--tx-mute); margin-bottom:16px}
+.pickers{display:flex; gap:10px; flex-wrap:wrap}
+.picker{display:flex; flex-direction:column; align-items:center; gap:7px}
+.picker input[type="color"]{
+  width:56px; height:56px; padding:0; border:1.5px solid var(--line); background:none;
+  cursor:pointer; border-radius:0;
+}
+.picker input[type="color"]::-webkit-color-swatch-wrapper{padding:3px}
+.picker input[type="color"]::-webkit-color-swatch{border:0}
+.picker span{font-size:.72rem; font-weight:600; color:var(--tx-mute); font-variant-numeric:tabular-nums}
+.custom-actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:18px; align-items:center}
+.hexin{
+  font-family:var(--body); font-size:.9rem; font-weight:500; color:var(--tx);
+  border:1.5px solid var(--line); background:var(--paper); padding:.7em .8em; width:100%;
+  max-width:340px; border-radius:0;
+}
+.hexin:focus{border-color:var(--accent); outline:0}
+
+.stage-wrap{position:sticky; top:104px}
+.studio-stage{background:var(--paper-2); border:1.5px solid var(--line); aspect-ratio:1/1; position:relative; overflow:hidden}
+.studio-stage svg{position:absolute; inset:0; width:100%; height:100%}
+.stage-bar{
+  display:flex; justify-content:space-between; align-items:center; gap:14px;
+  padding:14px 4px 0; flex-wrap:wrap;
+}
+.stage-name{font-family:var(--display); font-size:1.25rem; font-weight:600; font-style:italic}
+.stage-hexes{font-size:.8rem; font-weight:600; color:var(--tx-mute); letter-spacing:.02em; font-variant-numeric:tabular-nums}
+
+/* ============================================================================
+   PROCESS
+   ========================================================================= */
+.steps{border-top:1px solid var(--line)}
+.step{
+  display:grid; grid-template-columns:.45fr 1fr 1.4fr; gap:clamp(14px,4vw,52px);
+  padding:clamp(24px,3.4vw,40px) 0; border-bottom:1px solid var(--line); align-items:baseline;
+}
+@media (max-width:800px){ .step{grid-template-columns:1fr; gap:8px} }
+.step-no{font-family:var(--display); font-style:italic; font-size:1.05rem; font-weight:600; color:var(--accent)}
+.step h3{font-size:clamp(1.5rem,2.6vw,2rem)}
+.step p{color:var(--tx-mute); font-size:1rem; max-width:52ch; line-height:1.68}
+
+/* ============================================================================
+   INVESTMENT
+   ========================================================================= */
+.tiers{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line)}
+@media (max-width:880px){ .tiers{grid-template-columns:1fr} }
+.tier{background:var(--paper); padding:clamp(28px,3.2vw,44px) clamp(22px,2.4vw,34px); display:flex; flex-direction:column}
+.tier.mark{
+  background:var(--ink); color:#F6F2ED;
+  --accent:var(--gold); --ground:var(--ink); --tx:#F6F2ED; --tx-mute:#C0B6AE;
+}
+.tier h3{font-size:1.8rem}
+.tier-sub{font-size:.92rem; font-weight:600; color:var(--accent); margin-top:8px}
+.tier-price{font-family:var(--display); font-size:2.8rem; font-weight:500; margin:26px 0 0; letter-spacing:-.02em; color:var(--tx)}
+.tier-price small{display:block; font-family:var(--body); font-size:.76rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--tx-mute); margin-bottom:6px}
+.tier ul{list-style:none; padding:0; margin:26px 0 32px; display:grid; gap:12px}
+.tier li{font-size:.97rem; color:var(--tx-mute); padding-left:22px; position:relative; line-height:1.58}
+.tier li::before{content:""; position:absolute; left:0; top:.72em; width:10px; height:2px; background:var(--accent)}
+.tier .btn{margin-top:auto}
+
+/* ============================================================================
+   QUOTE
+   ========================================================================= */
+.bigquote{max-width:940px; margin-inline:auto; text-align:center}
+.bigquote blockquote{
+  margin:0; font-family:var(--display); font-style:italic; font-weight:400;
+  font-size:clamp(1.45rem,3.2vw,2.4rem); line-height:1.34; letter-spacing:-.012em; color:var(--tx);
+}
+.bigquote .who{margin-top:26px; font-size:.86rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--tx-mute)}
+.qnav{display:flex; gap:9px; justify-content:center; margin-top:34px}
+.qnav button{width:36px; height:3px; border:0; padding:0; background:#4A423C; cursor:pointer; transition:background .35s}
+.qnav button[aria-current="true"]{background:var(--gold)}
+
+/* ============================================================================
+   FAQ
+   ========================================================================= */
+.faq{max-width:880px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{
+  list-style:none; cursor:pointer; padding:24px 46px 24px 0; position:relative;
+  font-family:var(--display); font-size:clamp(1.15rem,1.9vw,1.35rem); font-weight:600; color:var(--tx);
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:""; position:absolute; right:8px; top:50%; width:13px; height:2px; background:var(--accent); transform:translateY(-50%)}
+.faq summary::before{content:""; position:absolute; right:13.5px; top:50%; width:2px; height:13px; background:var(--accent); transform:translateY(-50%); transition:opacity .35s, transform .35s}
+.faq details[open] summary::before{opacity:0; transform:translateY(-50%) rotate(90deg)}
+.faq details p{padding:0 0 26px; color:var(--tx-mute); font-size:1rem; max-width:70ch; line-height:1.7}
+
+/* ============================================================================
+   ENQUIRY
+   ========================================================================= */
+.enq-grid{display:grid; grid-template-columns:.85fr 1.15fr; gap:clamp(36px,6vw,86px); align-items:start}
+@media (max-width:940px){ .enq-grid{grid-template-columns:1fr} }
+.enq-detail{margin-top:40px; display:grid; gap:22px}
+.enq-detail b{display:block; font-family:var(--body); font-size:.78rem; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin-bottom:5px}
+.enq-detail div{font-size:1.02rem; color:#E2DAD3}
+.enq-detail a{text-decoration:none; border-bottom:1px solid rgba(211,177,131,.45); transition:border-color .3s}
+.enq-detail a:hover{border-color:var(--gold)}
+.field{margin-bottom:24px}
+.field label{display:block; font-size:.8rem; font-weight:600; letter-spacing:.06em; color:#CBC1B9; margin-bottom:8px}
+.field input, .field select, .field textarea{
+  width:100%; font-family:var(--body); font-size:1rem; font-weight:500; color:#F6F2ED;
+  background:transparent; border:0; border-bottom:1.5px solid #55493F; border-radius:0;
+  padding:.5em 0 .8em; transition:border-color .35s;
+}
+.field select option{background:var(--ink); color:#F6F2ED}
+.field textarea{min-height:104px; resize:vertical; line-height:1.6}
+.field input::placeholder, .field textarea::placeholder{color:#9C918A; opacity:1}
+.field input:focus, .field select:focus, .field textarea:focus{border-bottom-color:var(--gold); outline:0}
+.field-row{display:grid; grid-template-columns:1fr 1fr; gap:0 28px}
+@media (max-width:520px){ .field-row{grid-template-columns:1fr} }
+form .btn{width:100%; margin-top:4px}
+.form-note{font-size:.86rem; color:var(--tx-mute); margin-top:18px}
+.sent{display:none; padding:44px 0}
+.sent.show{display:block}
+.sent h3{font-size:2rem; font-style:italic}
+.sent p{color:var(--tx-mute); margin-top:14px}
+form.hide{display:none}
+
+/* ============================================================================
+   FOOTER
+   ========================================================================= */
+.foot{padding:clamp(52px,6.5vw,80px) 0 38px; border-top:1px solid var(--line)}
+.foot-top{display:flex; justify-content:space-between; gap:44px; flex-wrap:wrap}
+.foot .wordmark{color:var(--tx); margin-right:0}
+.foot-links{display:flex; gap:clamp(30px,6vw,80px); flex-wrap:wrap}
+.foot-col h4{font-family:var(--body); font-size:.78rem; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--accent); margin-bottom:14px}
+.foot-col a, .foot-col p{display:block; text-decoration:none; font-size:.97rem; color:var(--tx-mute); margin-bottom:8px; transition:color .3s}
+.foot-col a:hover{color:var(--tx)}
+.foot-bot{margin-top:52px; padding-top:22px; border-top:1px solid var(--line);
+  display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font-size:.88rem; color:var(--tx-mute)}
+
+.reveal{opacity:0; transform:translateY(24px); transition:opacity .9s var(--ease), transform .9s var(--ease)}
+.reveal.in{opacity:1; transform:none}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none !important; transition-duration:.01ms !important}
+  .reveal{opacity:1; transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================== NAV ============================== -->
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="wordmark" href="#top">
+      <svg viewBox="0 0 40 56" aria-hidden="true">
+        <ellipse cx="20" cy="19" rx="14" ry="17" fill="#D3B183"/>
+        <ellipse cx="15" cy="13" rx="3.4" ry="5" fill="#fff" opacity=".3"/>
+        <path d="M20 36 l-3 4.4h6z" fill="#D3B183"/>
+        <path d="M20 40.5 q5.4 5 0 10.5" stroke="#8A7A66" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      </svg>
+      Once Upon a Balloon
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#occasions">Occasions</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#palette">Palettes</a>
+      <a href="#process">Process</a>
+      <a href="#investment">Investment</a>
+      <a href="#faq">FAQs</a>
+    </nav>
+    <a class="btn btn-sm" href="#enquire">Enquire</a>
+  </div>
+</header>
+
+<main id="top">
+<!-- ============================== HERO ============================== -->
+<section class="hero dark">
+  <div class="wrap hero-in">
+    <div class="hero-copy">
+      <p class="eyebrow">Bespoke balloon styling</p>
+      <h1>Once upon<span class="em">a balloon.</span></h1>
+      <p class="lede">Sculptural installations, colour-matched to your palette and built on site — for weddings, milestone birthdays, showers, engagements and brand launches. Designed to be the thing everyone photographs.</p>
+      <div class="hero-cta">
+        <a class="btn btn-solid" href="#enquire">Check your date</a>
+        <a class="btn" href="#portfolio">View portfolio</a>
+      </div>
+    </div>
+    <div class="orbfield" id="orbfield" aria-hidden="true"></div>
+  </div>
+  <div class="wrap hero-foot">
+    <div class="credentials"><span>Fully insured</span><span>Install &amp; collection included</span><span>Same-day replies</span></div>
+    <p class="pop-hint" id="popHint">Go on — pop one.</p>
+  </div>
+</section>
+
+<!-- ============================== OCCASIONS ============================== -->
+<section class="band" id="occasions">
+  <div class="wrap">
+    <div class="head head-wide head-row reveal">
+      <div style="max-width:22ch">
+        <p class="eyebrow">Occasions</p>
+        <h2 class="h2">Six reasons<br><em>we get booked</em></h2>
+      </div>
+      <p class="lede" style="margin:0">Every installation is designed from scratch around your venue, your colours and the way you want the room to photograph.</p>
+    </div>
+
+    <div class="occ-list">
+      <article class="occ reveal">
+        <span class="occ-no">i</span><h3>Weddings</h3>
+        <p>Entrance arches, aisle and top-table installations, suspended orbs. Neutral, chrome or bridal-party palettes, with florals woven through.</p>
+        <span class="swatches"><i style="background:#F1EBE3"></i><i style="background:#E0C3BB"></i><i style="background:#C8A97E"></i></span>
+      </article>
+      <article class="occ reveal">
+        <span class="occ-no">ii</span><h3>Birthdays</h3>
+        <p>Milestone years done properly. Sculpted number displays, organic garlands and a backdrop built to the exact width of your space.</p>
+        <span class="swatches"><i style="background:#14100E"></i><i style="background:#C8A97E"></i><i style="background:#B0B6B8"></i></span>
+      </article>
+      <article class="occ reveal">
+        <span class="occ-no">iii</span><h3>Baby showers</h3>
+        <p>Soft, tonal and grown-up. Hoops, cloud installations and a personalised orb — never primary colours unless you ask for them.</p>
+        <span class="swatches"><i style="background:#F1EBE3"></i><i style="background:#E0C3BB"></i><i style="background:#A9B0A0"></i></span>
+      </article>
+      <article class="occ reveal">
+        <span class="occ-no">iv</span><h3>Engagements</h3>
+        <p>The proposal set-up or the party afterwards. Discreet install, fast build, and a monogram orb for the photograph you'll actually keep.</p>
+        <span class="swatches"><i style="background:#E0C3BB"></i><i style="background:#C8A97E"></i><i style="background:#FFFFFF"></i></span>
+      </article>
+      <article class="occ reveal">
+        <span class="occ-no">v</span><h3>Christenings</h3>
+        <p>Quiet, tonal styling for the hall or the house. Hoops, name displays and low table arrangements that suit a formal room.</p>
+        <span class="swatches"><i style="background:#FFFFFF"></i><i style="background:#B0B6B8"></i><i style="background:#E0C3BB"></i></span>
+      </article>
+      <article class="occ reveal">
+        <span class="occ-no">vi</span><h3>Corporate</h3>
+        <p>Launches, conferences and brand activations, matched to your exact brand hex codes. Out-of-hours install, invoiced on account.</p>
+        <span class="swatches"><i style="background:#14100E"></i><i style="background:#B0B6B8"></i><i style="background:#C8A97E"></i></span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== PORTFOLIO ============================== -->
+<section class="band dark" id="portfolio">
+  <div class="wrap">
+    <div class="head head-wide head-row reveal">
+      <div style="max-width:20ch">
+        <p class="eyebrow">Portfolio</p>
+        <h2 class="h2">Built to be<br><em>photographed</em></h2>
+      </div>
+      <p class="lede" style="margin:0">Six signature installation styles. Every one is sized to your space — these are starting shapes, not a fixed menu.</p>
+    </div>
+    <div class="grid" id="grid"></div>
+    <p class="note">Tiles are 4:5 — the same ratio as an Instagram portrait post, so your own photographs drop straight in.</p>
+  </div>
+</section>
+
+<!-- ============================== PALETTE STUDIO ============================== -->
+<section class="band" id="palette">
+  <div class="wrap">
+    <div class="head reveal">
+      <p class="eyebrow">Personalised</p>
+      <h2 class="h2">Any palette. <em>Matched exactly.</em></h2>
+      <p class="lede">Start from one of these, or build your own below — the preview rebuilds live. Send it with your enquiry and you'll get a full colour board back before anything is ordered.</p>
+    </div>
+
+    <div class="studio">
+      <div class="reveal">
+        <div class="swatch-grid" id="palGrid"></div>
+
+        <div class="custom">
+          <h4>Build your own</h4>
+          <p>Pick five colours, or paste hex codes from your stylist, florist or brand guidelines.</p>
+          <div class="pickers" id="pickers"></div>
+          <div class="custom-actions">
+            <input class="hexin" id="hexin" type="text" spellcheck="false"
+                   placeholder="Paste hex codes, e.g. #7C3F58, #F2E9E4, #C9ADA7…"
+                   aria-label="Paste hex codes">
+          </div>
+          <div class="custom-actions">
+            <button class="btn btn-sm" type="button" id="applyHex">Apply codes</button>
+            <button class="btn btn-sm" type="button" id="surprise">Surprise me</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="stage-wrap">
+          <div class="studio-stage"><svg id="stage" viewBox="0 0 500 500"></svg></div>
+          <div class="stage-bar">
+            <div>
+              <p class="stage-name" id="stageName">Champagne &amp; Ivory</p>
+              <p class="stage-hexes" id="stageHexes"></p>
+            </div>
+            <button class="btn btn-sm btn-solid" type="button" id="usePal">Use this palette</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== PROCESS ============================== -->
+<section class="band" id="process" style="background:var(--paper-2); border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="head reveal">
+      <p class="eyebrow">Process</p>
+      <h2 class="h2">Four steps, and <em>none of them are yours</em></h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><span class="step-no">One</span><h3>Enquire</h3><p>Send the date, venue and a rough idea of the look. We confirm availability the same day and hold your slot for 48 hours, free.</p></div>
+      <div class="step reveal"><span class="step-no">Two</span><h3>Design</h3><p>You receive a colour board and a scaled sketch of the installation in your space, with a fixed price. Revise it as often as you like before booking.</p></div>
+      <div class="step reveal"><span class="step-no">Three</span><h3>Install</h3><p>We arrive inside your access window and build on site — nothing arrives pre-made and squashed. Most installations take 60–120 minutes.</p></div>
+      <div class="step reveal"><span class="step-no">Four</span><h3>Collect</h3><p>Collection is booked when the install is booked, so nobody is dismantling an arch at midnight. Recyclable latex wherever possible.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== INVESTMENT ============================== -->
+<section class="band" id="investment">
+  <div class="wrap">
+    <div class="head reveal">
+      <p class="eyebrow">Investment</p>
+      <h2 class="h2">Starting points, <em>not surprises</em></h2>
+      <p class="lede">Every quote is fixed before a deposit is taken, and includes design, install, collection and travel within [X] miles.</p>
+    </div>
+    <div class="tiers">
+      <div class="tier reveal">
+        <h3>The Statement</h3><p class="tier-sub">One focal installation</p>
+        <div class="tier-price"><small>From</small>£195</div>
+        <ul><li>Organic garland to 8ft, or a single sculpted orb display</li><li>Five-colour bespoke palette</li><li>Fitted to a backdrop, table or doorway</li><li>Install and collection included</li></ul>
+        <a class="btn" href="#enquire">Enquire</a>
+      </div>
+      <div class="tier mark reveal">
+        <h3>The Signature</h3><p class="tier-sub">Most requested</p>
+        <div class="tier-price"><small>From</small>£395</div>
+        <ul><li>Freestanding or doorway arch to 10ft</li><li>Blended palette with chrome, matte or confetti detail</li><li>Florals, foliage or personalised signage</li><li>Site visit before the day</li><li>Install and collection included</li></ul>
+        <a class="btn btn-solid" href="#enquire">Enquire</a>
+      </div>
+      <div class="tier reveal">
+        <h3>The Full Room</h3><p class="tier-sub">Styled end to end</p>
+        <div class="tier-price"><small>From</small>£850</div>
+        <ul><li>Multiple installations across the space</li><li>Suspended orbs, number or letter sculpture</li><li>Entrance and table styling</li><li>Venue visit and floor plan in advance</li><li>Install, collection and on-call cover</li></ul>
+        <a class="btn" href="#enquire">Enquire</a>
+      </div>
+    </div>
+    <p class="note">A 25% deposit secures the date; balance due seven days before. [Confirm your own terms before publishing.]</p>
+  </div>
+</section>
+
+<!-- ============================== QUOTE ============================== -->
+<section class="band dark">
+  <div class="wrap bigquote reveal">
+    <p class="eyebrow" style="margin-bottom:30px">Words</p>
+    <blockquote id="qText">“She matched the palette to a single thread in my dress. Every photograph from the day has it in the background.”</blockquote>
+    <p class="who" id="qWho">Placeholder — wedding</p>
+    <div class="qnav" id="qnav"></div>
+  </div>
+</section>
+
+<!-- ============================== FAQ ============================== -->
+<section class="band" id="faq">
+  <div class="wrap">
+    <div class="head reveal">
+      <p class="eyebrow">Details</p>
+      <h2 class="h2">Good <em>to know</em></h2>
+    </div>
+    <div class="faq reveal">
+      <details open><summary>How far ahead should I book?</summary><p>Four to six weeks for most dates, and three months or more for weddings and bank holiday weekends. If your date is sooner, still ask — a couple of slots are held each week for short notice.</p></details>
+      <details><summary>Do you install, or do I collect?</summary><p>We deliver, install and return for collection. Everything is built on site so nothing arrives creased or squashed. Travel within [X] miles is included; beyond that we add [£X] per mile.</p></details>
+      <details><summary>How long do the balloons last?</summary><p>Air-filled installations hold their shape for several days indoors, so we can build the day before. Helium floats for roughly 12–24 hours untreated, or up to three days treated. Outdoor installations are air-filled only.</p></details>
+      <details><summary>Can you match an exact colour?</summary><p>Yes. Send a photograph, a fabric swatch or a hex code — or build the palette yourself in the Palette Studio above. We'll match as closely as latex allows and show you the colour board before anything is ordered.</p></details>
+      <details><summary>Do you work outdoors?</summary><p>Yes, on weighted frames rated for wind. We'll tell you honestly if the forecast makes it a poor idea, and suggest a sheltered position on the day.</p></details>
+      <details><summary>What do you need from my venue?</summary><p>An access window, somewhere to park, and confirmation of what may be fixed to walls or ceilings. We're fully insured and can send the certificate directly to your venue.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ENQUIRE ============================== -->
+<section class="band dark" id="enquire">
+  <div class="wrap enq-grid">
+    <div class="reveal">
+      <p class="eyebrow">Enquire</p>
+      <h2 class="h2">Tell us the date.<br><em>We'll do the rest.</em></h2>
+      <p class="lede" style="margin-top:20px">No deposit to enquire. You'll have availability and a starting price the same day, and we'll hold the slot for 48 hours.</p>
+      <div class="enq-detail">
+        <div><b>Email</b><a href="mailto:hello@onceuponaballoon.co.uk">hello@onceuponaballoon.co.uk</a></div>
+        <div><b>Phone &amp; WhatsApp</b><a href="tel:+440000000000">[Your number]</a></div>
+        <div><b>Covering</b>[Your town] and [X] miles around it</div>
+        <div><b>Studio hours</b>Monday to Saturday, 9am–8pm</div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <form id="enq" novalidate>
+        <div class="field-row">
+          <div class="field"><label for="name">Name</label><input id="name" type="text" required></div>
+          <div class="field"><label for="phone">Phone</label><input id="phone" type="tel"></div>
+        </div>
+        <div class="field"><label for="email">Email</label><input id="email" type="email" required></div>
+        <div class="field-row">
+          <div class="field"><label for="type">Occasion</label>
+            <select id="type">
+              <option>Wedding</option><option>Birthday</option><option>Baby shower</option>
+              <option>Engagement</option><option>Christening</option><option>Corporate event</option><option>Something else</option>
+            </select>
+          </div>
+          <div class="field"><label for="date">Date</label><input id="date" type="date"></div>
+        </div>
+        <div class="field"><label for="venue">Venue or postcode</label><input id="venue" type="text"></div>
+        <div class="field"><label for="notes">Palette and anything else</label><textarea id="notes" placeholder="Colours, numbers, backdrop size, access times…"></textarea></div>
+        <button class="btn btn-solid" type="submit">Send enquiry</button>
+        <p class="form-note">Your details are used only to answer this enquiry.</p>
+      </form>
+      <div class="sent" id="sent">
+        <h3>Enquiry received.</h3>
+        <p>Thank you — you'll have availability and a starting price for your date today.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============================== FOOTER ============================== -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <a class="wordmark" href="#top">
+        <svg viewBox="0 0 40 56" aria-hidden="true">
+          <ellipse cx="20" cy="19" rx="14" ry="17" fill="#74521F"/>
+          <path d="M20 36 l-3 4.4h6z" fill="#74521F"/>
+          <path d="M20 40.5 q5.4 5 0 10.5" stroke="#74521F" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        </svg>
+        Once Upon a Balloon
+      </a>
+      <div class="foot-links">
+        <div class="foot-col"><h4>Occasions</h4>
+          <a href="#occasions">Weddings</a><a href="#occasions">Birthdays</a><a href="#occasions">Baby showers</a><a href="#occasions">Corporate</a></div>
+        <div class="foot-col"><h4>Booking</h4>
+          <a href="#investment">Investment</a><a href="#process">Process</a><a href="#faq">FAQs</a><a href="#enquire">Enquire</a></div>
+        <div class="foot-col"><h4>Follow</h4>
+          <a href="#">Instagram</a><a href="#">Pinterest</a><a href="#">TikTok</a><a href="mailto:hello@onceuponaballoon.co.uk">Email</a></div>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <p>© <span id="yr"></span> Once Upon a Balloon — balloon styling in [your area]</p>
+      <p>[Company details] · <a href="#" style="color:inherit">Privacy</a> · <a href="#" style="color:inherit">Terms</a></p>
+    </div>
+  </div>
+</footer>
+
+<div id="shards" aria-hidden="true"></div>
+
+<script>
+/* ============================================================================
+   Balloon engine — every orb is an SVG ellipse with a focal radial gradient
+   for matte sheen, a knot, a rim highlight and a fine string.
+   ========================================================================= */
+const NS = "http://www.w3.org/2000/svg";
+const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let gradSeq = 0;
+
+const hex2rgb = h => [1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+const rgb2hex = a => "#"+a.map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,"0")).join("");
+const mix = (h,t,amt) => rgb2hex(hex2rgb(h).map((v,i)=>v+(hex2rgb(t)[i]-v)*amt));
+const lighten = (h,a)=>mix(h,"#ffffff",a);
+const darken  = (h,a)=>mix(h,"#000000",a);
+const rng = seed => { let s=(seed|0)||1; return ()=> (s = s*16807 % 2147483647)/2147483647; };
+
+function defs(svg){
+  let d = svg.querySelector("defs");
+  if(!d){ d = document.createElementNS(NS,"defs"); svg.insertBefore(d, svg.firstChild); }
+  return d;
+}
+function gradFor(svg, colour){
+  const d = defs(svg);
+  if(!svg.dataset.gk) svg.dataset.gk = ++gradSeq;
+  const key = "g"+colour.replace("#","")+"-"+svg.dataset.gk;
+  if(!d.querySelector("#"+key)){
+    const rg = document.createElementNS(NS,"radialGradient");
+    rg.id = key; rg.setAttribute("cx","50%"); rg.setAttribute("cy","50%");
+    rg.setAttribute("r","62%"); rg.setAttribute("fx","33%"); rg.setAttribute("fy","27%");
+    [[0,lighten(colour,.34)],[.42,lighten(colour,.08)],[.82,colour],[1,darken(colour,.18)]]
+      .forEach(([o,c])=>{ const s=document.createElementNS(NS,"stop");
+        s.setAttribute("offset",o); s.setAttribute("stop-color",c); rg.appendChild(s); });
+    d.appendChild(rg);
+  }
+  return `url(#${key})`;
+}
+function orb(svg, x, y, r, colour, rot, o){
+  o = o || {};
+  const g = document.createElementNS(NS,"g");
+  g.setAttribute("transform",`translate(${x} ${y}) rotate(${rot||0})`);
+  if(o.string){
+    const p = document.createElementNS(NS,"path");
+    p.setAttribute("d",`M0 ${r*1.17} q${r*0.42} ${o.string*0.42} ${(o.sway||0)} ${o.string}`);
+    p.setAttribute("stroke", o.stringColour || "rgba(160,148,138,.5)");
+    p.setAttribute("stroke-width", o.stringWidth || 1);
+    p.setAttribute("fill","none"); p.setAttribute("stroke-linecap","round");
+    g.appendChild(p);
+  }
+  const e = document.createElementNS(NS,"ellipse");
+  e.setAttribute("rx", r); e.setAttribute("ry", r*1.16);
+  e.setAttribute("fill", gradFor(svg, colour));
+  g.appendChild(e);
+  const knot = document.createElementNS(NS,"path");
+  knot.setAttribute("d",`M${-r*0.1} ${r*1.1} L0 ${r*1.24} L${r*0.1} ${r*1.1} Z`);
+  knot.setAttribute("fill", darken(colour,.14));
+  g.appendChild(knot);
+  const hi = document.createElementNS(NS,"ellipse");
+  hi.setAttribute("cx",-r*0.33); hi.setAttribute("cy",-r*0.44);
+  hi.setAttribute("rx",r*0.17); hi.setAttribute("ry",r*0.29);
+  hi.setAttribute("fill","#fff"); hi.setAttribute("opacity",".38");
+  hi.setAttribute("transform",`rotate(-22 ${-r*0.33} ${-r*0.44})`);
+  g.appendChild(hi);
+  svg.appendChild(g);
+  return g;
+}
+function along(svg, path, o){
+  o = Object.assign({count:30, r:[10,20], seed:7, jitter:6, palette:["#EFE9E3"]}, o||{});
+  const rand = rng(o.seed);
+  for(let i=0;i<o.count;i++){
+    const t = i/(o.count-1), p = path(t);
+    const r = o.r[0] + Math.pow(rand(),1.4)*(o.r[1]-o.r[0]);
+    orb(svg, p.x+(rand()-.5)*o.jitter*2, p.y+(rand()-.5)*o.jitter*2, r,
+        o.palette[Math.floor(rand()*o.palette.length)], (rand()-.5)*44);
+  }
+}
+const PATH = {
+  sag:   (w,y0,dip) => t => ({x:t*w, y:y0+Math.sin(Math.PI*t)*dip}),
+  arch:  (cx,cy,rw,rh) => t => { const a=Math.PI*(1-t); return {x:cx+Math.cos(a)*rw, y:cy-Math.sin(a)*rh}; },
+  column:(cx,yTop,yBot,amp) => t => ({x:cx+Math.sin(t*Math.PI*3)*amp, y:yBot-t*(yBot-yTop)})
+};
+
+/* ============================================================================
+   HERO ORBS — positioned as % of their own column, so they can never
+   overlap the headline. Click to pop.
+   ========================================================================= */
+const R = 100, PAD = 26;
+const HERO = [
+  {x:4,  y:0,  w:48, c:"#D3B183", cls:"drift-a", s:1.9},
+  {x:64, y:23, w:28, c:"#F1EBE3", cls:"drift-b", s:1.7},
+  {x:8,  y:60, w:20, c:"#E0C3BB", cls:"drift-c", s:1.5},
+  {x:56, y:74, w:14, c:"#B0B6B8", cls:"drift-b", s:1.3}
+];
+const field = document.getElementById("orbfield");
+
+function buildOrb(spec, arriving){
+  const btn = document.createElement("button");
+  btn.className = "orb" + (arriving ? " arriving" : "");
+  btn.type = "button"; btn.setAttribute("aria-label","Pop this balloon");
+  btn.style.left = spec.x+"%"; btn.style.top = spec.y+"%"; btn.style.width = spec.w+"%";
+  const inner = document.createElement("span");
+  inner.className = spec.cls; inner.style.display = "block";
+  const w = R*2 + PAD*2, h = R*2.32 + R*spec.s + PAD*2;
+  const svg = document.createElementNS(NS,"svg");
+  svg.setAttribute("viewBox",`0 0 ${w} ${h}`); svg.setAttribute("width","100%");
+  orb(svg, w/2, R*1.16+PAD, R, spec.c, 0,
+      {string:R*spec.s, sway:R*0.5, stringColour:"rgba(211,177,131,.34)", stringWidth:1.6});
+  inner.appendChild(svg); btn.appendChild(inner);
+  btn.addEventListener("click", ()=>pop(btn, spec));
+  field.appendChild(btn);
+  if(arriving) setTimeout(()=>btn.classList.remove("arriving"), 1700);
+}
+HERO.forEach(s=>buildOrb(s,false));
+
+const shardHost = document.getElementById("shards");
+const hint = document.getElementById("popHint");
+function pop(btn, spec){
+  if(btn.dataset.gone) return;
+  btn.dataset.gone = "1";
+  hint.classList.add("gone");
+  const box = btn.getBoundingClientRect();
+  const r = box.width*0.39;
+  burst(box.left + box.width/2, box.top + r*1.28, spec.c, r);
+  btn.classList.add("popping");
+  setTimeout(()=>btn.remove(), 220);
+  setTimeout(()=>buildOrb(spec, true), 2600);
+}
+function burst(cx, cy, colour, r){
+  const n = REDUCED ? 6 : Math.round(14 + r/5);
+  const bits = [], rand = rng(Date.now()%100000);
+  for(let i=0;i<n;i++){
+    const el = document.createElement("i"); el.className = "shard";
+    const long = i%3===0;
+    const w = long ? 4+rand()*5 : 3+rand()*4;
+    const h = long ? 12+rand()*20 : w;
+    el.style.width = w+"px"; el.style.height = h+"px";
+    el.style.background = i%5===0 ? lighten(colour,.4) : colour;
+    el.style.borderRadius = long ? "60% 40% 55% 45% / 50%" : "50%";
+    el.style.left = cx+"px"; el.style.top = cy+"px";
+    shardHost.appendChild(el);
+    const ang = (i/n)*Math.PI*2 + rand()*0.7;
+    const spd = (2.6 + rand()*5.4) * (r/70 + .6);
+    bits.push({el,x:0,y:0,vx:Math.cos(ang)*spd,vy:Math.sin(ang)*spd-2.4,rot:rand()*360,vr:(rand()-.5)*22,life:1});
+  }
+  let last = performance.now();
+  (function step(now){
+    const dt = Math.min(2.4,(now-last)/16.7); last = now;
+    let alive = false;
+    bits.forEach(b=>{
+      if(b.life<=0) return; alive = true;
+      b.vy += .34*dt; b.vx *= .985; b.vy *= .992;
+      b.x += b.vx*dt; b.y += b.vy*dt; b.rot += b.vr*dt; b.life -= .016*dt;
+      b.el.style.transform = `translate(${b.x}px,${b.y}px) rotate(${b.rot}deg)`;
+      b.el.style.opacity = Math.max(0,b.life);
+      if(b.life<=0) b.el.remove();
+    });
+    if(alive) requestAnimationFrame(step);
+  })(last);
+}
+
+/* ============================================================================
+   PORTFOLIO TILES
+   ========================================================================= */
+(function portfolio(){
+  const host = document.getElementById("grid");
+  const W=400, H=500;
+  const NEUTRAL=["#F1EBE3","#E0C3BB","#C8A97E","#D6CCC2","#FFFFFF"];
+  const MONO   =["#F1EBE3","#B0B6B8","#CFD3D4","#7E8688","#FFFFFF"];
+  const SAGE   =["#E5DCCC","#A9B0A0","#CFC6B4","#F1EBE3","#BFC4B6"];
+  const items = [
+    {t:"Grand entrance arch", k:"To 12ft",
+      draw:s=>along(s,PATH.arch(200,432,150,300),{count:44,r:[11,27],seed:12,jitter:9,palette:NEUTRAL})},
+    {t:"Organic backdrop garland", k:"6–14ft",
+      draw:s=>{ along(s,PATH.sag(400,120,150),{count:34,r:[12,29],seed:5,jitter:11,palette:MONO});
+        const r=document.createElementNS(NS,"rect"); r.setAttribute("x",92);r.setAttribute("y",372);
+        r.setAttribute("width",216);r.setAttribute("height",5);r.setAttribute("fill","#3D342E"); s.appendChild(r);
+        const l=document.createElementNS(NS,"rect"); l.setAttribute("x",118);l.setAttribute("y",377);
+        l.setAttribute("width",5);l.setAttribute("height",78);l.setAttribute("fill","#3D342E"); s.appendChild(l);
+        const l2=l.cloneNode(); l2.setAttribute("x",277); s.appendChild(l2); }},
+    {t:"Suspended orbs", k:"Above the floor",
+      draw:s=>{ const rand=rng(41);
+        for(let i=0;i<11;i++){
+          const x=46+(i*33)%320+rand()*30, y=92+rand()*120, r=16+rand()*26;
+          orb(s,x,y,r,NEUTRAL[Math.floor(rand()*NEUTRAL.length)],(rand()-.5)*24,
+              {string:120+rand()*220, sway:(rand()-.5)*30, stringColour:"rgba(211,177,131,.24)"});
+        } }},
+    {t:"Balloon hoop", k:"3–4ft ring",
+      draw:s=>{ const c=document.createElementNS(NS,"circle");
+        c.setAttribute("cx",200);c.setAttribute("cy",228);c.setAttribute("r",128);
+        c.setAttribute("fill","none");c.setAttribute("stroke","#4D423A");c.setAttribute("stroke-width",4); s.appendChild(c);
+        along(s,t=>{const a=Math.PI*2*(t*0.55)-Math.PI*0.95; return{x:200+Math.cos(a)*128,y:228+Math.sin(a)*128};},
+          {count:26,r:[11,25],seed:19,jitter:8,palette:SAGE});
+        const st=document.createElementNS(NS,"path"); st.setAttribute("d","M200 356 L200 452");
+        st.setAttribute("stroke","#4D423A"); st.setAttribute("stroke-width",3); s.appendChild(st); }},
+    {t:"Sculpted columns", k:"7ft pair",
+      draw:s=>{ along(s,PATH.column(112,72,438,15),{count:20,r:[13,26],seed:3,jitter:5,palette:MONO});
+        along(s,PATH.column(288,72,438,15),{count:20,r:[13,26],seed:9,jitter:5,palette:MONO}); }},
+    {t:"Personalised orb", k:"Monogram or name",
+      draw:s=>{ orb(s,200,214,116,"#F1EBE3",0,{string:200,sway:26,stringColour:"rgba(211,177,131,.3)"});
+        const tx=document.createElementNS(NS,"text");
+        tx.setAttribute("x",200);tx.setAttribute("y",250);tx.setAttribute("text-anchor","middle");
+        tx.setAttribute("font-family",'"Newsreader", serif');tx.setAttribute("font-size","104");
+        tx.setAttribute("font-style","italic");tx.setAttribute("font-weight","600");
+        tx.setAttribute("fill","#8A6A3C");tx.setAttribute("opacity",".9");
+        tx.textContent="M"; s.appendChild(tx);
+        orb(s,92,366,30,"#C8A97E",-8,{string:90,sway:12,stringColour:"rgba(211,177,131,.24)"});
+        orb(s,312,392,22,"#E0C3BB",10,{string:70,sway:-10,stringColour:"rgba(211,177,131,.24)"}); }}
+  ];
+  items.forEach(it=>{
+    const svg=document.createElementNS(NS,"svg");
+    svg.setAttribute("viewBox",`0 0 ${W} ${H}`); it.draw(svg);
+    const tile=document.createElement("article"); tile.className="tile reveal";
+    tile.innerHTML=`<div class="tile-art" style="background:#1B1512"></div>
+      <div class="tile-cap"><b>${it.t}</b><i>${it.k}</i></div>`;
+    tile.querySelector(".tile-art").appendChild(svg);
+    host.appendChild(tile);
+  });
+})();
+
+/* ============================================================================
+   PALETTE STUDIO — twelve presets plus a full custom builder
+   ========================================================================= */
+(function studio(){
+  const stage=document.getElementById("stage"), grid=document.getElementById("palGrid");
+  const nameEl=document.getElementById("stageName"), hexEl=document.getElementById("stageHexes");
+  const pickers=document.getElementById("pickers");
+
+  const PRESETS=[
+    {n:"Champagne & Ivory",  p:["#C8A97E","#F1EBE3","#DCCDB8","#B5996F","#FDFBF8"]},
+    {n:"Blush & Bone",       p:["#E0C3BB","#F3EDE8","#C99A92","#EBD8D1","#FDFBF8"]},
+    {n:"Monochrome & Chrome",p:["#B0B6B8","#F2EFEC","#6E7477","#D3D7D8","#FFFFFF"]},
+    {n:"Ink & Ivory",        p:["#1A1614","#F5F1EC","#4A423C","#D9D2CA","#FFFFFF"]},
+    {n:"Sage & Sand",        p:["#A9B0A0","#E5DCCC","#87907C","#CFC6B4","#F3EFE7"]},
+    {n:"Dusty Blue & Pearl", p:["#9FB3C8","#EEF2F5","#6C87A3","#CBD8E3","#FFFFFF"]},
+    {n:"Terracotta & Cream", p:["#C2725A","#F0E4D6","#9C5642","#E0B79F","#FBF4EC"]},
+    {n:"Rose Gold & Nude",   p:["#D9A38F","#F2E6DF","#B87F6B","#E9CDBF","#FFFFFF"]},
+    {n:"Emerald & Gold",     p:["#1F5A4A","#C8A97E","#357561","#E3D6BE","#F1EBE3"]},
+    {n:"Midnight & Gold",    p:["#232B38","#C8A97E","#46536B","#E3D6BE","#8E9AAA"]},
+    {n:"Plum & Pearl",       p:["#6B2D5B","#EFE6EE","#8E5480","#C9A9C2","#FBF7FA"]},
+    {n:"Jewel Box",          p:["#6B2D5B","#1F5A4A","#C8A97E","#9C2C4B","#2A3A63"]}
+  ];
+
+  let current = {n:PRESETS[0].n, p:[...PRESETS[0].p]};
+
+  function render(){
+    stage.innerHTML=""; delete stage.dataset.gk;
+    along(stage, PATH.arch(250,432,170,308), {count:42, r:[13,32], seed:29, jitter:11, palette:current.p});
+    nameEl.textContent = current.n;
+    hexEl.textContent = current.p.join("  ");
+    grid.querySelectorAll(".pal").forEach(b=>
+      b.setAttribute("aria-pressed", b.dataset.name===current.n ? "true":"false"));
+    [...pickers.querySelectorAll("input")].forEach((inp,i)=>{
+      inp.value = current.p[i];
+      inp.nextElementSibling.textContent = current.p[i].toUpperCase();
+    });
+  }
+
+  PRESETS.forEach(m=>{
+    const b=document.createElement("button");
+    b.className="pal"; b.type="button"; b.dataset.name=m.n; b.setAttribute("aria-pressed","false");
+    b.innerHTML=`<span class="pal-name">${m.n}</span>
+      <span class="pal-strip">${m.p.map(c=>`<i style="background:${c}"></i>`).join("")}</span>`;
+    b.addEventListener("click",()=>{ current={n:m.n,p:[...m.p]}; render(); });
+    grid.appendChild(b);
+  });
+
+  /* custom pickers */
+  for(let i=0;i<5;i++){
+    const wrap=document.createElement("label"); wrap.className="picker";
+    const inp=document.createElement("input"); inp.type="color"; inp.value=current.p[i];
+    inp.setAttribute("aria-label","Colour "+(i+1));
+    const lab=document.createElement("span"); lab.textContent=current.p[i].toUpperCase();
+    inp.addEventListener("input",()=>{
+      current.p[i]=inp.value; current.n="Your palette";
+      lab.textContent=inp.value.toUpperCase(); render();
+    });
+    wrap.appendChild(inp); wrap.appendChild(lab); pickers.appendChild(wrap);
+  }
+
+  document.getElementById("applyHex").addEventListener("click",()=>{
+    const box=document.getElementById("hexin");
+    const found=(box.value.match(/#?[0-9a-f]{6}\b/gi)||[]).map(h=>h[0]==="#"?h:"#"+h);
+    if(!found.length){ box.focus(); box.placeholder="Try six-digit codes, e.g. #7C3F58"; return; }
+    for(let i=0;i<5;i++) current.p[i]=found[i % found.length];
+    current.n="Your palette"; render();
+  });
+
+  document.getElementById("surprise").addEventListener("click",()=>{
+    const m=PRESETS[Math.floor(Math.random()*PRESETS.length)];
+    current={n:m.n,p:[...m.p]}; render();
+  });
+
+  /* carry the palette into the enquiry */
+  document.getElementById("usePal").addEventListener("click",()=>{
+    const notes=document.getElementById("notes");
+    const line=`Palette: ${current.n} — ${current.p.join(", ")}`;
+    notes.value = notes.value.trim() ? notes.value.trim()+"\n"+line : line;
+    document.getElementById("enquire").scrollIntoView({behavior:REDUCED?"auto":"smooth"});
+    setTimeout(()=>notes.focus({preventScroll:true}), REDUCED?0:700);
+  });
+
+  render();
+})();
+
+/* ============================================================================
+   TESTIMONIALS · REVEALS · NAV · FORM
+   ========================================================================= */
+(function words(){
+  const Q=[
+    ["“She matched the palette to a single thread in my dress. Every photograph from the day has it in the background.”","Placeholder — wedding"],
+    ["“Arrived when she said, built it in an hour, and the venue didn't lift a finger. Faultless on a wedding morning.”","Placeholder — venue manager"],
+    ["“We've used her for the launch and both staff parties since. Proper invoices, proper install times.”","Placeholder — corporate client"]
+  ];
+  const t=document.getElementById("qText"), w=document.getElementById("qWho"), nav=document.getElementById("qnav");
+  t.style.transition=w.style.transition="opacity .3s ease";
+  Q.forEach((q,i)=>{
+    const b=document.createElement("button"); b.type="button";
+    b.setAttribute("aria-label","Show quote "+(i+1));
+    b.setAttribute("aria-current", i===0?"true":"false");
+    b.addEventListener("click",()=>{
+      t.style.opacity=0; w.style.opacity=0;
+      setTimeout(()=>{ t.textContent=Q[i][0]; w.textContent=Q[i][1]; t.style.opacity=1; w.style.opacity=1; },260);
+      [...nav.children].forEach((x,j)=>x.setAttribute("aria-current", j===i?"true":"false"));
+    });
+    nav.appendChild(b);
+  });
+})();
+
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+},{threshold:.1, rootMargin:"0px 0px -6% 0px"});
+document.querySelectorAll(".reveal").forEach((el,i)=>{
+  el.style.transitionDelay=(Math.min(i%6,4)*80)+"ms"; io.observe(el);
+});
+
+const nav=document.getElementById("nav");
+addEventListener("scroll",()=>nav.classList.toggle("is-stuck", scrollY>40),{passive:true});
+document.getElementById("yr").textContent=new Date().getFullYear();
+
+/* The form shows a confirmation only — nothing is emailed yet.
+   To go live: <form action="https://formspree.io/f/XXXX" method="POST"> and
+   delete the handler below (or add `netlify` to the tag if hosting there). */
+const form=document.getElementById("enq");
+form.addEventListener("submit",e=>{
+  e.preventDefault();
+  const n=document.getElementById("name"), m=document.getElementById("email");
+  if(!n.value.trim()){ n.focus(); return; }
+  if(!m.value.includes("@")){ m.focus(); return; }
+  form.classList.add("hide");
+  document.getElementById("sent").classList.add("show");
+});
+</script>
+</body>
+</html>
