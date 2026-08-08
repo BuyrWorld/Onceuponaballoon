@@ -249,15 +249,16 @@ h1,h2,h3,h4{
   70%{opacity:1}
   100%{opacity:0; transform:translateX(-50%) translateY(-8px)}
 }
-.hero-annot{position:absolute; right:-2%; top:6%; z-index:4; text-align:right; color:var(--ink)}
-.hero-annot .hand{display:block; transform:rotate(-6deg)}
+.hero-annot{position:absolute; right:14px; top:14px; z-index:4; text-align:right;
+  color:var(--ink); max-width:min(52%,230px)}
+.hero-annot .hand{display:block; transform:rotate(-6deg); transform-origin:100% 50%}
 .hero-annot .doodle{position:relative; width:66px; height:44px; margin-left:auto; color:var(--ink); display:block}
 .hero-sticker{position:absolute; left:-3%; bottom:6%; z-index:4}
 @media (max-width:940px){
   .hero-grid{grid-template-columns:1fr; gap:26px}
   .hero-stage{order:2; aspect-ratio:1/.86; margin-inline:calc(var(--gut) * -.35)}
   .hero-copy{order:1}
-  .hero-annot{top:2%; right:2%}
+  .hero-annot{top:10px; right:10px}
   .hero-sticker{left:2%; bottom:3%}
 }
 @media (max-width:520px){ .hero-cta .btn{flex:1 1 100%} }
@@ -333,12 +334,12 @@ h1,h2,h3,h4{
 .blockback .picwrap::before{
   content:""; position:absolute; inset:0; z-index:-1;
   background:var(--butter); border-radius:12px;
-  transform:translate(-15px, 15px);
+  transform:translate(16px, -16px);
 }
 @media (max-width:860px){
   .collage{grid-template-columns:1fr; gap:34px}
   .c-a,.c-b,.c-c,.c-d,.c-e{grid-column:1/2; margin-top:0}
-  .blockback .picwrap::before{transform:translate(-10px, 10px)}
+  .blockback .picwrap::before{transform:translate(10px, -10px)}
 }
 
 /* ── 09 · OCCASIONS ──────────────────────────────────────────────────────── */
@@ -1241,21 +1242,43 @@ function freeHue(){
   return open.length ? open[Math.floor(Math.random()*open.length)] : null;
 }
 
-function spawn(){
-  const li=freeLane(), hue=freeHue();
-  if(li<0||!hue) return;
-  const lane=lanes[li];
-  busyLane.add(li); busyHue.add(hue);
+/* rarity is the point: a big one should feel like an event, not the norm */
+const TIERS=[
+  {k:"big",   weight:.14, span:2, f:.80, dur:[8,10.5], tail:2.0, z:4, op:1},
+  {k:"mid",   weight:.34, span:1, f:.80, dur:[12,15],  tail:1.3, z:2, op:1},
+  {k:"small", weight:.52, span:1, f:.48, dur:[15,19],  tail:1.0, z:1, op:.86}
+];
+function pickTier(){
+  let r=Math.random(), acc=0;
+  for(const t of TIERS){ acc+=t.weight; if(r<=acc) return t; }
+  return TIERS[TIERS.length-1];
+}
+function freePair(){
+  const ok=[];
+  for(let i=0;i<lanes.length-1;i++) if(!busyLane.has(i)&&!busyLane.has(i+1)) ok.push(i);
+  return ok.length ? ok[Math.floor(Math.random()*ok.length)] : -1;
+}
 
-  /* three distinct sizes — big reads as nearer, small as further away */
-  const TIERS=[
-    {s:1.00, dur:[9,12],  tail:1.55, z:3, op:1},
-    {s:0.72, dur:[12,15], tail:1.25, z:2, op:1},
-    {s:0.50, dur:[15,19], tail:1.00, z:1, op:.88}
-  ];
-  const tier=TIERS[Math.floor(Math.random()*TIERS.length)];
-  const lanePx=(field.clientWidth||420)*lane.w/100;
-  const scale=tier.s;                   /* true tier size — variety preserved */
+function spawn(){
+  const hue=freeHue(); if(!hue) return;
+  let tier=pickTier(), idxs, x, w;
+
+  if(tier.span===2){
+    const i=freePair();
+    if(i<0) tier=TIERS[1];                       /* no room — fall back to mid */
+    else{
+      const span=(lanes[i+1].x+lanes[i+1].w)-lanes[i].x;
+      w=span*tier.f; x=lanes[i].x+(span-w)/2; idxs=[i,i+1];
+    }
+  }
+  if(!idxs){
+    const i=freeLane(); if(i<0) return;
+    w=lanes[i].w*tier.f; x=lanes[i].x+(lanes[i].w-w)/2; idxs=[i];
+  }
+
+  idxs.forEach(i=>busyLane.add(i));
+  busyHue.add(hue);
+
   const tail=tier.tail;
   const dur=tier.dur[0]+Math.random()*(tier.dur[1]-tier.dur[0]);
   const H=field.clientHeight||460;
@@ -1263,14 +1286,14 @@ function spawn(){
   const b=document.createElement("button");
   b.className="orb"; b.type="button";
   b.setAttribute("aria-label","Pop this balloon");
-  b.style.left=lane.x+"%";
-  b.style.width=(lane.w*scale)+"%";
+  b.style.left=x+"%";
+  b.style.width=w+"%";
   b.style.setProperty("--dur",dur+"s");
   b.style.setProperty("--rise", -(H*1.5)+"px");
   b.style.zIndex=tier.z;
   b.style.opacity=tier.op;
   /* pad the hit area out to 46px without touching the artwork */
-  const visualPx=lanePx*scale;
+  const visualPx=(field.clientWidth||420)*w/100;
   b.style.setProperty("--hit", Math.max(0,(46-visualPx)/2)+"px");
 
   const sway=document.createElement("span");
@@ -1279,21 +1302,21 @@ function spawn(){
   const snap=document.createElement("span");
   snap.className="snap";
 
-  const w=R*2+PAD*2,h=R*2.3+R*tail+PAD*2;
+  const vbW=R*2+PAD*2, vbH=R*2.3+R*tail+PAD*2;
   const svg=document.createElementNS(NS,"svg");
-  svg.setAttribute("viewBox",`0 0 ${w} ${h}`); svg.setAttribute("width","100%");
-  orb(svg,w/2,R*1.15+PAD,R,hue,0,
+  svg.setAttribute("viewBox",`0 0 ${vbW} ${vbH}`); svg.setAttribute("width","100%");
+  orb(svg,vbW/2,R*1.15+PAD,R,hue,0,
       {string:R*tail,sway:R*.45,stringColour:"rgba(27,27,27,.4)",stringWidth:2.4,outline:true});
   snap.appendChild(svg); sway.appendChild(snap); b.appendChild(sway);
 
-  const release=()=>{ busyLane.delete(li); busyHue.delete(hue); };
+  const release=()=>{ idxs.forEach(i=>busyLane.delete(i)); busyHue.delete(hue); };
   b.addEventListener("click",()=>pop(b,snap,hue,release));
   b.addEventListener("pointerenter",()=>poptip.classList.add("on"));
   b.addEventListener("pointerleave",()=>poptip.classList.remove("on"));
   /* escaped off the top */
   b.addEventListener("animationend",e=>{
     if(e.animationName!=="riseUp"||b.dataset.gone) return;
-    flashMissed(lane.x+lane.w*scale/2);
+    flashMissed(x+w/2);
     release(); b.remove();
   });
   field.appendChild(b);
