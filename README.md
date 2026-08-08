@@ -9,70 +9,86 @@ Static single-page site. No build step, no dependencies, no framework.
 └── README.md
 ```
 
-## Deploying
-
-1. New GitHub repo, e.g. `once-upon-a-balloon`.
-2. Put `index.html` and `vercel.json` in the **root** — not in a subfolder.
-3. Push.
-4. Vercel → Add New → Project → import the repo.
-5. Framework Preset: **Other**. Root Directory: `./`. Build Command: leave empty. Output Directory: leave empty.
-6. Deploy.
-
-Vercel serves `index.html` at `/` automatically. Every push to `main` redeploys.
-
-### Local preview on Windows
-Open `index.html` in a browser directly, or from the repo folder:
-```
-python -m http.server 8000
-```
-then visit `http://localhost:8000`.
-
-### Domain
-Vercel → Project → Settings → Domains → add `onceuponaballoon.co.uk` and `www`.
-At the registrar: `A` record for the apex to `76.76.21.21`, and a `CNAME`
-for `www` to `cname.vercel-dns.com`. Vercel shows the exact values to use —
-follow those rather than these if they differ.
+Push to `main` → Vercel redeploys. Framework Preset **Other**, no build command,
+no output directory.
 
 ---
 
-## Before you publish — placeholders to replace
+## Design system
 
-Search `index.html` for square brackets. All of them:
+Tokens live in one `:root` block at the top of the `<style>`. Change a colour
+there and it propagates everywhere. CSS is numbered 01–20, JS 01–12.
 
-| Placeholder | Where |
-|---|---|
-| `[Your number]` | Enquiry section |
-| `[Your town]` | Enquiry section, footer |
-| `[X] miles` | Investment, FAQ, Enquiry |
-| `[£X] per mile` | FAQ |
-| `[Confirm your own terms before publishing.]` | Investment |
-| `[Company details]` | Footer |
-| `hello@onceuponaballoon.co.uk` | Nav-adjacent, Enquiry, Footer (×3) |
-| Instagram / Pinterest / TikTok `href="#"` | Footer |
+### Colour
 
-Also replace the three testimonials marked **Placeholder** with real ones.
+| Token | Value | Use |
+|---|---|---|
+| `--ivory` | `#F8F5EF` | primary ground |
+| `--stone` | `#F1ECE4` | alternating sections |
+| `--pure` | `#FFFDF9` | cards, form |
+| `--charcoal` | `#171715` | buttons, footer |
+| `--deep` | `#11110F` | statement section |
+| `--ink` | `#191816` | body text — 16.3:1 |
+| `--ink-2` | `#6D6861` | secondary — 5.1:1 |
+| `--gold` | `#B9914A` | DECORATIVE ONLY — 2.7:1 on ivory, fails as text |
+| `--gold-soft` | `#D2B77B` | gold text on dark grounds — 9.7:1 |
+| `--gold-ink` | `#7E5C1E` | gold text on light grounds — 5.6:1 |
+| `--blush` `--sage` | | palette accents |
 
-## Making the enquiry form actually send
+`.on-dark` remaps `--bg / --fg / --fg-2 / --accent-tx / --rule`, so any section
+flips dark by adding the class — no per-component overrides.
 
-Right now it validates and shows a confirmation, but emails nobody.
+### Type
+- **DM Serif Display** — headings only, never below ~1.15rem
+- **Manrope** — everything else
+- All sizes via `clamp()`; zero hardcoded px font sizes
 
-**Formspree** (fastest): sign up, create a form, then change
+### Radii
+`0`, `2px`, `50%`. Nothing else.
+
+---
+
+## Before you publish
+
+Search for `[` — every placeholder is bracketed:
+`[Your number]` · `[Your town]` · `[X] miles` · `[£X] per mile` ·
+`[Company details]` · `[Confirm your own terms before publishing.]`
+
+Also: `hello@onceuponaballoon.co.uk`, the three `Placeholder —` testimonials,
+and the social `href="#"` links.
+
+## Making the form send
+
+Inputs already carry `name` attributes, so it's a one-line change:
+
 ```html
-<form id="enq" novalidate>
+<form class="enq-form" id="enq" action="https://formspree.io/f/YOUR_ID" method="POST">
 ```
-to
+
+Then delete the submit handler in JS section 11. (Or add `netlify` to the tag
+if hosting there instead.)
+
+## Dropping in real photography
+
+Each editorial slot is a `.frame` with a generated `<svg>` inside:
+
 ```html
-<form id="enq" action="https://formspree.io/f/YOUR_ID" method="POST">
+<div class="item" data-art="arch">
+  <div class="frame frame--r34"></div>
+</div>
 ```
-Add a `name` attribute to each input matching its `id` (Formspree reads `name`,
-not `id`), and delete the submit handler at the very bottom of the `<script>`.
 
-**Netlify**: add `netlify` to the `<form>` tag instead, and host there.
+Replace with:
 
-## Notes
+```html
+<div class="item">
+  <div class="frame frame--r34"><img src="/img/arch.jpg" alt="…" loading="lazy"></div>
+</div>
+```
 
-- Fonts load from Google Fonts (Newsreader + Manrope). Everything else is inline.
-- Every balloon is drawn in SVG at runtime — no image files.
-- Portfolio tiles are 4:5, the Instagram portrait ratio. Swap the generated
-  SVGs for `<img>` tags when you have real photographs.
-- Respects `prefers-reduced-motion`; all text passes WCAG AA contrast.
+Remove the `data-art` attribute and the generator skips it. Grain, vignette and
+hover-scale all apply to `<img>` identically. Ratios available:
+`--r45` (4:5) · `--r34` (3:4) · `--r11` (1:1) · `--r1610` (16:10) · `--r219` (21:9).
+
+Hero photography: put the `<img>` inside `.hero-stage` behind `.orbfield`.
+The orbs float over it.
