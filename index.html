@@ -252,7 +252,8 @@ h1,h2,h3,h4{
 .hero-annot{position:absolute; right:14px; top:14px; z-index:4; text-align:right;
   color:var(--ink); max-width:min(52%,230px)}
 .hero-annot .hand{display:block; transform:rotate(-6deg); transform-origin:100% 50%}
-.hero-annot .doodle{position:relative; width:66px; height:44px; margin-left:auto; color:var(--ink); display:block}
+.hero-annot .doodle{position:relative; width:66px; height:44px; margin-right:auto;
+  margin-top:2px; color:var(--ink); display:block}
 .hero-sticker{position:absolute; left:-3%; bottom:6%; z-index:4}
 @media (max-width:940px){
   .hero-grid{grid-template-columns:1fr; gap:26px}
@@ -330,16 +331,9 @@ h1,h2,h3,h4{
 .c-d{grid-column:1/7}
 .c-e{grid-column:8/13; margin-top:clamp(16px,3vw,44px)}
 .r45{aspect-ratio:4/5} .r11{aspect-ratio:1/1} .r169{aspect-ratio:16/9} .r43{aspect-ratio:4/3}
-.picwrap{position:relative; isolation:isolate}
-.blockback .picwrap::before{
-  content:""; position:absolute; inset:0; z-index:-1;
-  background:var(--butter); border-radius:12px;
-  transform:translate(16px, -16px);
-}
 @media (max-width:860px){
   .collage{grid-template-columns:1fr; gap:34px}
   .c-a,.c-b,.c-c,.c-d,.c-e{grid-column:1/2; margin-top:0}
-  .blockback .picwrap::before{transform:translate(10px, -10px)}
 }
 
 /* ── 09 · OCCASIONS ──────────────────────────────────────────────────────── */
@@ -696,7 +690,7 @@ h1,h2,h3,h4{
       <div class="orbfield" id="orbfield" aria-hidden="true"></div>
       <div class="hero-annot" aria-hidden="true">
         <span class="hand">go on, pop them</span>
-        <svg class="doodle" viewBox="0 0 70 46"><path d="M4 4 C 24 6, 44 14, 58 34"/><path d="M60 20 L60 37 L44 33"/></svg>
+        <svg class="doodle" viewBox="0 0 70 46"><path d="M64 5 C 46 8, 26 15, 11 34"/><path d="M25 30 L9 36 L14 21"/></svg>
       </div>
       <div class="hero-sticker"><span class="sticker sticker--mint">Big party energy</span></div>
     </div>
@@ -718,8 +712,8 @@ h1,h2,h3,h4{
     </div>
 
     <div class="collage">
-      <div class="shot c-a rv blockback" data-art="arch">
-        <div class="picwrap"><div class="pic r45"></div></div>
+      <div class="shot c-a rv" data-art="arch">
+        <div class="pic r45"></div>
         <div class="cap"><b>Milestone birthday</b><i>Before the guests destroyed it.</i></div>
       </div>
       <div class="shot c-b rv tilt-r" data-art="orbs">
