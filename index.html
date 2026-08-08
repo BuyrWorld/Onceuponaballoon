@@ -226,6 +226,17 @@ h1,h2,h3,h4{
 }
 .orbfield{position:absolute; inset:0; z-index:3; pointer-events:none;
   border-radius:18px; overflow:hidden}
+.scorepill{
+  position:absolute; left:12px; top:12px; z-index:4; pointer-events:none;
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--ink); color:var(--cream); border-radius:100px;
+  padding:.42em .78em; font-size:.7rem; font-weight:800; letter-spacing:.03em;
+  box-shadow:0 3px 0 rgba(27,27,27,.24);
+}
+.scorepill svg{width:10px; height:14px; flex:none}
+.scorepill b{font-variant-numeric:tabular-nums; min-width:1ch; text-align:right}
+.scorepill.bump{animation:scoreBump 380ms var(--e-spring)}
+@keyframes scoreBump{0%{transform:scale(1)}38%{transform:scale(1.22) rotate(-4deg)}100%{transform:scale(1)}}
 .missed{
   position:absolute; top:6%; transform:translateX(-50%);
   font-family:var(--sans); font-size:.62rem; font-weight:800; letter-spacing:.14em;
@@ -256,6 +267,9 @@ h1,h2,h3,h4{
   position:absolute; top:100%; pointer-events:auto; cursor:pointer; border:0; padding:0;
   background:none; -webkit-tap-highlight-color:transparent; will-change:transform;
   animation:riseUp var(--dur,13s) linear forwards;
+}
+.orb::before{                          /* widens the touch target only */
+  content:""; position:absolute; inset:0 calc(-1 * var(--hit,0px));
 }
 .orb svg{overflow:visible}
 .sway{display:block; animation:sway var(--sway,4.4s) ease-in-out infinite}
@@ -299,7 +313,6 @@ h1,h2,h3,h4{
 .shot{position:relative}
 .shot .pic{
   position:relative; overflow:hidden; border-radius:10px; background:var(--mint);
-  box-shadow:0 12px 0 -6px rgba(27,27,27,.08);
 }
 .shot .pic svg{position:absolute; inset:0; width:100%; height:100%;
   transition:transform 900ms var(--e)}
@@ -316,15 +329,16 @@ h1,h2,h3,h4{
 .c-d{grid-column:1/7}
 .c-e{grid-column:8/13; margin-top:clamp(16px,3vw,44px)}
 .r45{aspect-ratio:4/5} .r11{aspect-ratio:1/1} .r169{aspect-ratio:16/9} .r43{aspect-ratio:4/3}
-.blockback{position:relative}
-.blockback::before{
-  content:""; position:absolute; left:-14px; top:-14px; right:26px; bottom:34px;
-  background:var(--butter); border-radius:12px; z-index:-1;
+.picwrap{position:relative; isolation:isolate}
+.blockback .picwrap::before{
+  content:""; position:absolute; inset:0; z-index:-1;
+  background:var(--butter); border-radius:12px;
+  transform:translate(-15px, 15px);
 }
 @media (max-width:860px){
   .collage{grid-template-columns:1fr; gap:34px}
   .c-a,.c-b,.c-c,.c-d,.c-e{grid-column:1/2; margin-top:0}
-  .blockback::before{right:18px; bottom:26px}
+  .blockback .picwrap::before{transform:translate(-10px, 10px)}
 }
 
 /* ── 09 · OCCASIONS ──────────────────────────────────────────────────────── */
@@ -670,6 +684,14 @@ h1,h2,h3,h4{
 
     <div class="hero-stage rv">
       <div class="sky"></div>
+      <span class="scorepill" id="score" aria-live="polite">
+        <svg viewBox="0 0 20 28" aria-hidden="true">
+          <ellipse cx="10" cy="9.5" rx="8" ry="9.5" fill="#FFD86B"/>
+          <path d="M10 19 l-2 3h4z" fill="#FFD86B"/>
+          <path d="M10 22 q3 3 0 6" stroke="#FFD86B" stroke-width="1.6" fill="none"/>
+        </svg>
+        <b id="scoreN">0</b> popped
+      </span>
       <div class="orbfield" id="orbfield" aria-hidden="true"></div>
       <div class="hero-annot" aria-hidden="true">
         <span class="hand">go on, pop them</span>
@@ -696,7 +718,7 @@ h1,h2,h3,h4{
 
     <div class="collage">
       <div class="shot c-a rv blockback" data-art="arch">
-        <div class="pic r45"></div>
+        <div class="picwrap"><div class="pic r45"></div></div>
         <div class="cap"><b>Milestone birthday</b><i>Before the guests destroyed it.</i></div>
       </div>
       <div class="shot c-b rv tilt-r" data-art="orbs">
@@ -1194,6 +1216,7 @@ const field=document.getElementById("orbfield");
 const bits=document.getElementById("bits");
 const poptip=document.getElementById("poptip");
 const tallyEl=document.getElementById("tally"), tallyN=document.getElementById("tallyN");
+const scoreEl=document.getElementById("score"), scoreN=document.getElementById("scoreN");
 let popped=0;
 
 const LINES=["Rude.","That was our favourite one.","Do it again.","Okay, that was quite satisfying.","One less to inflate.","Right, that's enough."];
@@ -1224,9 +1247,17 @@ function spawn(){
   const lane=lanes[li];
   busyLane.add(li); busyHue.add(hue);
 
-  const scale=.78+Math.random()*.34;          /* size variety, still lane-safe */
-  const tail=1.1+Math.random()*.7;
-  const dur=11+Math.random()*6;
+  /* three distinct sizes — big reads as nearer, small as further away */
+  const TIERS=[
+    {s:1.00, dur:[9,12],  tail:1.55, z:3, op:1},
+    {s:0.72, dur:[12,15], tail:1.25, z:2, op:1},
+    {s:0.50, dur:[15,19], tail:1.00, z:1, op:.88}
+  ];
+  const tier=TIERS[Math.floor(Math.random()*TIERS.length)];
+  const lanePx=(field.clientWidth||420)*lane.w/100;
+  const scale=tier.s;                   /* true tier size — variety preserved */
+  const tail=tier.tail;
+  const dur=tier.dur[0]+Math.random()*(tier.dur[1]-tier.dur[0]);
   const H=field.clientHeight||460;
 
   const b=document.createElement("button");
@@ -1236,6 +1267,11 @@ function spawn(){
   b.style.width=(lane.w*scale)+"%";
   b.style.setProperty("--dur",dur+"s");
   b.style.setProperty("--rise", -(H*1.5)+"px");
+  b.style.zIndex=tier.z;
+  b.style.opacity=tier.op;
+  /* pad the hit area out to 46px without touching the artwork */
+  const visualPx=lanePx*scale;
+  b.style.setProperty("--hit", Math.max(0,(46-visualPx)/2)+"px");
 
   const sway=document.createElement("span");
   sway.className="sway";
@@ -1310,6 +1346,10 @@ function countPop(){
   popped++;
   tallyN.textContent=popped;
   tallyEl.classList.add("on");
+  scoreN.textContent=popped;
+  scoreEl.classList.remove("bump");
+  void scoreEl.offsetWidth;              /* restart the bump */
+  scoreEl.classList.add("bump");
 }
 function pop(btn,snap,hue,release){
   if(btn.dataset.gone) return;
